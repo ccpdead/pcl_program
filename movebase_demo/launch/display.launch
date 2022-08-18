@@ -1,0 +1,5 @@
+<launch>
+
+  <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find movebase_demo)/launch/rviz.rviz"/>
+
+</launch>
