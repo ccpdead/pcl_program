@@ -39,14 +39,15 @@ Costmap::Costmap():n(ros::NodeHandle())
 {
     ROS_INFO("start.............\r\n");
     scan_sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, &Costmap::scanCallback, this);//订阅雷达信息
-    cloud_pub = n.advertise<sensor_msgs::PointCloud2>("/cloud_pcl", 1000);//发布融合后的障碍物信息
+    cloud_pub = n.advertise<sensor_msgs::PointCloud2>("/fusion_cloud", 1000);//发布融合后的障碍物信息
 
-    camera_sub = n.subscribe<sensor_msgs::PointCloud2>("/rgbd_camera_pointcloud/proj_obstacles", 1000, &Costmap::camera_pointCallback, this);//订阅深度相机octomap沉降后的障碍物信息
+    camera_sub = n.subscribe<sensor_msgs::PointCloud2>("/tof_camera/proj_obstacles", 1000, &Costmap::camera_pointCallback, this);//订阅深度相机octomap沉降后的障碍物信息
 }
 //接受雷达信息并转化为base——footprint坐标系下的点云信息，并转化为PCL的点云信息。
 void Costmap::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan_msg)
 {
     sensor_msgs::PointCloud2 cloud;
+    //$ 将激光从 base_laser_link 坐标系下转化到 base_link
     if(!tfListener_.waitForTransform(
         scan_msg->header.frame_id,
         "base_link",
@@ -55,16 +56,10 @@ void Costmap::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan_msg)
         {
             return;
         }
+    //￥ ros::laserScan ====> ros::PointCloud2 （类型转换）
     projector_.transformLaserScanToPointCloud("base_link", *scan_msg, cloud, tfListener_);
     pcl::fromROSMsg(cloud, this->cloud_lidar);//将ROS数据转化为点云数据
-    // pcl::PointCloud<pcl::PointXYZ>::Ptr output_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ> output_cloud;
-    
-    output_cloud = this->cloud_camera + this->cloud_lidar;//将雷达点云信息与深度点云信息结合
-    sensor_msgs::PointCloud2 cloud_ros_output;
 
-    pcl::toROSMsg(output_cloud, cloud_ros_output);//将点云数据转化为ROS格式
-    cloud_pub.publish(cloud_ros_output);//发布ROS点云数据
 
 }
 
@@ -72,7 +67,19 @@ void Costmap::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan_msg)
 void Costmap::camera_pointCallback(const sensor_msgs::PointCloud2::ConstPtr& point_msg)
 {
     pcl::fromROSMsg(*point_msg, this->cloud_camera);
+
+    //创建 pointcloud类型指针
+    // pcl::PointCloud<pcl::PointXYZ>::Ptr output_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    //实例化 pointcloud 类
+    pcl::PointCloud<pcl::PointXYZ> output_cloud;
+    
+    output_cloud = this->cloud_camera + this->cloud_lidar;// 将雷达点云信息与深度点云信息结合
+    sensor_msgs::PointCloud2 cloud_ros_output;// 创建ros::PointCloud2类型数据
+
+    pcl::toROSMsg(output_cloud, cloud_ros_output);//将点云数据转化为ROS格式
+    cloud_pub.publish(cloud_ros_output);//发布ROS点云数据
 }
+
 
 int main(int argc, char** argv){
 
