@@ -7,7 +7,7 @@
 #include<std_msgs/String.h>
 using namespace std;
 /*
-根据TF转换来获取机器人的目标位置
+    ￥根据TF转换来获取机器人的目标位置
 */
 
 
@@ -25,7 +25,7 @@ main(int argc, char** argv)
     }else
     {   
         printf("start saving movebase transofrm\r\n");
-        in.open("/home/ubuntu/Desktop/pose.txt",ios::trunc);
+        in.open("/home/ubuntu/Desktop/pose-2.txt",ios::trunc);
     }
     
     ros::init(argc, argv, "sub");
@@ -49,6 +49,7 @@ main(int argc, char** argv)
         //////////////////////////////////////////////////////
         cout<<"I heard"<<endl;
         float data[7] = {0};
+        //￥ 充电模式
         if(type == 'r')//若为r,则为充电模式
         {
             try
@@ -64,6 +65,7 @@ main(int argc, char** argv)
                 return -1;
             }
         }else
+        //$ 导航模式
         {        
             try
             {

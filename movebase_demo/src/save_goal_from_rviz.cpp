@@ -7,7 +7,7 @@
 
 using namespace std;
 /*
-通过rviz获取移动机器人的目标位置信息.
+￥通过rviz获取移动机器人的目标位置信息.
 */
 
 ofstream in;
@@ -40,6 +40,7 @@ int main(int argc, char** argv)
     in.open("/home/ubuntu/Desktop/pose.txt",ios::trunc);
     ros::init(argc, argv, "sub");
     ros::NodeHandle nh;
+    //$ 收到rviz上的发布的机器人导航目标后进入回调函数，经目标保存在文件中
     ros::Subscriber sub = nh.subscribe("/move_base_simple/goal", 1000, Feedback);
     cout<<"Read for saving......"<<endl;
     while(ros::ok())
