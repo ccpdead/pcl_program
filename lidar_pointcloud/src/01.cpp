@@ -50,14 +50,14 @@ void Costmap::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan_msg)
     //$ 将激光从 base_laser_link 坐标系下转化到 base_link
     if(!tfListener_.waitForTransform(
         scan_msg->header.frame_id,
-        "base_link",
+        "base_laser_link",
         scan_msg->header.stamp + ros::Duration().fromSec(scan_msg->ranges.size() * scan_msg->time_increment),
-        ros::Duration(2)))
+        ros::Duration(1)))
         {
             return;
         }
     //￥ ros::laserScan ====> ros::PointCloud2 （类型转换）
-    projector_.transformLaserScanToPointCloud("base_link", *scan_msg, cloud, tfListener_);
+    projector_.transformLaserScanToPointCloud("base_laser_link", *scan_msg, cloud, tfListener_);
     pcl::fromROSMsg(cloud, this->cloud_lidar);//将ROS数据转化为点云数据
 
 

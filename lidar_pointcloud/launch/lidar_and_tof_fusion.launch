@@ -1,5 +1,5 @@
 <launch>
 
-    <node name="lidar_and_tof_fusion" pkg="lidar_pointcloud" type="lidar_point" output="screen"/>
+    <node name="lidar_and_tof_fusion" pkg="lidar_pointcloud" type="lidar_point_fusion_node" output="screen"/>
 
 </launch>
