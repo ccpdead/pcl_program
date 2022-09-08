@@ -82,7 +82,7 @@ void feedbackCb(const move_base_msgs::MoveBaseFeedbackConstPtr& feedback)
 }
 
 //￥ 导航坐标点的名称
-std::string filename = "/home/ubuntu/Desktop/pose-2.txt";
+std::string filename = "/home/ubuntu/Desktop/pose.txt";
 
 
 //￥ main
@@ -92,6 +92,7 @@ int main(int argc, char **argv)
     std::string topic = "/cmd_vel";
     ros::NodeHandle node;
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
+    
     ROS_INFO(">>>>>>>>>start<<<<<<<<<<");
 
     got_lines(filename,file_line);//获取goal数
@@ -176,6 +177,10 @@ int main(int argc, char **argv)
             break;
        //$ 发布下一个目标点
         count +=1;
+        //循环发送目标
+        if(count == file_line){
+            count = 0;
+        }
         ROS_INFO("reday for the next goal\n");
     } 
 
