@@ -5,6 +5,13 @@
 #include<pcl/visualization/cloud_viewer.h>
 #include<pcl/visualization/pcl_visualizer.h>
 
+/**
+ * @brief 显示pcd点云信息数据
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int
 main(int argc, char** argv)
 {

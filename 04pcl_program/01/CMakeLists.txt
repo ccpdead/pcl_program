@@ -12,17 +12,23 @@ roscpp
 )
 #########################################################
 find_package(cmake_modules REQUIRED)
+
+# 添加eigen3头文件
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 add_definitions(${EIGEN_DEFINITIONS})
+
+# 设置bin可执行二进制文件的存放位置
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 catkin_package(
 )
 
+# 设置加载ros的头文件地址
 include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 ####################################################
+# 设置PCL的include头文件
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -33,6 +39,7 @@ add_definitions(${PCL_DEFINITIONS})
 # target_link_libraries (main 
 #                             ${PCL_LIBRARIES}
 #                             ${catkin_LIBRARIES})
+
 #保存点云信息
 add_executable (save_pcd src/04.cpp)
 target_link_libraries (save_pcd 

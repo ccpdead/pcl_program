@@ -5,7 +5,10 @@
 #include<pcl/point_types.h>
 
 #include<pcl/filters/voxel_grid.h>
-
+/**
+ * @brief 接收点云信息并通过体素滤波处理后重新发送
+ * 
+ */
 ros::Publisher pub;
 
 void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)

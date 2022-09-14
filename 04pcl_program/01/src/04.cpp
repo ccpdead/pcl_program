@@ -5,6 +5,11 @@
 #include<sensor_msgs/PointCloud2.h>
 #include<pcl_conversions/pcl_conversions.h>
 
+/**
+ * @brief 订阅点云信息，并保存至本地pcd文件
+ * 
+ * @param input 
+ */
 void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& input)
 {
     printf("got the pcl data--------\r\n");
