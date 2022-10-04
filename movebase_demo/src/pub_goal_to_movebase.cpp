@@ -169,7 +169,7 @@ int main(int argc, char **argv)
        //if we dont get there in time abort the goal
         ros::Duration(5).sleep();
        //$当离目标小于30cm，跳出本次规划，进入下一次规划
-        while(distance >= 0.3 || angle >=1.57){
+        while(distance >= 0.2 || angle >=1.57){
             if(!ros::ok())
                 break;
         }
@@ -178,9 +178,9 @@ int main(int argc, char **argv)
        //$ 发布下一个目标点
         count +=1;
         //循环发送目标
-        //if(count == file_line){
-         //   count = 0;
-        //}
+        if(count == file_line){
+           count = 0;
+        }
         ROS_INFO("reday for the next goal\n");
     } 
 
