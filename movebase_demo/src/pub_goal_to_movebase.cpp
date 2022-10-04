@@ -178,9 +178,9 @@ int main(int argc, char **argv)
        //$ 发布下一个目标点
         count +=1;
         //循环发送目标
-        if(count == file_line){
-            count = 0;
-        }
+        //if(count == file_line){
+         //   count = 0;
+        //}
         ROS_INFO("reday for the next goal\n");
     } 
 
