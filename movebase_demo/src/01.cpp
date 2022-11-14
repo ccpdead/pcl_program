@@ -125,7 +125,6 @@ int main(int argc, char **argv)
     for(int i =0;i<4;i++)
     {
         line_list.points.push_back(pose_list[i].position);
-
     }
 
     //publisher to manually control the robot
